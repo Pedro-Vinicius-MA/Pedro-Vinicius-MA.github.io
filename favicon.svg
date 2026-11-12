@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#4a3ed4"/>
+  <rect x="10" y="9" width="8" height="3" rx="1.5" fill="#ffffff" opacity=".55"/>
+  <rect x="21" y="9" width="8" height="3" rx="1.5" fill="#ffffff" opacity=".55"/>
+  <rect x="32" y="9" width="8" height="3" rx="1.5" fill="#ffffff" opacity=".55"/>
+  <rect x="43" y="9" width="8" height="3" rx="1.5" fill="#ffffff" opacity=".55"/>
+  <text x="32" y="50" text-anchor="middle" font-family="Archivo, 'Arial Narrow', Arial, Helvetica, sans-serif" font-weight="800" font-size="34" letter-spacing="-1" fill="#ffffff">PV</text>
+</svg>
