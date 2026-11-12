@@ -1,0 +1,795 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Pedro Vinícius Moraes Alves</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Sistemas web, dashboards de BI, automações e agentes de IA sob medida. Perícia grafotécnica e documentoscópica. Caruaru-PE, atendimento em todo o Brasil.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: página de venda com cara de "dossiê de perito" — cada caso é um item de evidência (ilustração + problema/solução/resultado),
+   etiquetas em mono, acento violeta da luz UV usada no exame de documentos, e uma faixa escura só no orçamento. */
+:root{
+  --paper:#f2f4f8;   /* fundo frio de laudo */
+  --sheet:#ffffff;   /* folha */
+  --sunk:#e8ebf3;    /* fundo das ilustrações */
+  --ink:#121826;     /* texto */
+  --muted:#596377;   /* texto secundário */
+  --rule:#d3d9e4;    /* linhas */
+  --uv:#4a3ed4;      /* acento: luz UV */
+  --uv-soft:#e9e7ff;
+  --on-uv:#ffffff;
+  --band:#121826;    /* faixa do orçamento */
+  --on-band:#eef1f7;
+  --band-muted:#a3acbf;
+  --band-field:#1c2435;
+  --band-rule:#2e3850;
+  --ok:#1f8a5b;
+  --display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0e121a; --sheet:#151b26; --sunk:#1a2130; --ink:#e7ebf2; --muted:#9aa4b6; --rule:#283143;
+    --uv:#9d94ff; --uv-soft:#24204a; --on-uv:#0e121a;
+    --band:#1b1f3a; --on-band:#eef1f7; --band-muted:#a9afcf; --band-field:#121629; --band-rule:#343a63;
+    --ok:#4cc38a; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0e121a; --sheet:#151b26; --sunk:#1a2130; --ink:#e7ebf2; --muted:#9aa4b6; --rule:#283143;
+  --uv:#9d94ff; --uv-soft:#24204a; --on-uv:#0e121a;
+  --band:#1b1f3a; --on-band:#eef1f7; --band-muted:#a9afcf; --band-field:#121629; --band-rule:#343a63;
+  --ok:#4cc38a; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;
+}
+.pad{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.in{max-width:1080px;margin:0 auto}
+a{color:var(--uv)}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--uv);outline-offset:3px;border-radius:4px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
+p{margin:0}
+.tag{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--uv);background:var(--uv-soft);padding:3px 8px;border-radius:4px;white-space:nowrap}
+[data-l]{display:none}
+html[lang="pt-BR"] [data-l="pt"], html[lang="en"] [data-l="en"]{display:revert}
+
+/* botões */
+.btn{display:inline-flex;align-items:center;gap:8px;font:600 15px var(--body);text-decoration:none;border-radius:8px;padding:12px 18px;border:1px solid transparent;cursor:pointer;line-height:1.2}
+.btn-primary{background:var(--uv);color:var(--on-uv)}
+.btn-primary:hover{filter:brightness(1.08)}
+.btn-ghost{border-color:var(--rule);color:var(--ink);background:var(--sheet)}
+.btn-ghost:hover{border-color:var(--uv)}
+.btn svg{width:18px;height:18px;flex:none}
+
+/* topo */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:1px solid var(--rule)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--paper)}
+.topbar .in{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
+.brand{font-family:var(--display);font-weight:800;font-stretch:80%;font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand span{color:var(--uv)}
+.nav{display:flex;align-items:center;gap:20px}
+.nav a.lnk{color:var(--muted);text-decoration:none;font-size:14px}
+.nav a.lnk:hover{color:var(--ink)}
+.lang{display:flex;border:1px solid var(--rule);border-radius:999px;overflow:hidden}
+.lang button{font:500 12px var(--mono);letter-spacing:.06em;background:none;border:0;color:var(--muted);padding:6px 11px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+@media (max-width:820px){.nav a.lnk{display:none}}
+
+main{display:grid;gap:96px;padding-block:56px 96px}
+.sec-head{display:grid;gap:10px;margin-bottom:28px;max-width:64ch}
+.sec-head h2{font-size:clamp(30px,4.4vw,46px);font-weight:800;font-stretch:78%;line-height:1}
+.sec-head p{color:var(--muted);font-size:17px}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.35fr 1fr;gap:48px;align-items:center}
+.hero-txt{display:grid;gap:22px}
+.hero h1{font-size:clamp(40px,6.6vw,78px);line-height:.95;font-weight:800;font-stretch:72%;letter-spacing:-.012em}
+.hero h1 em{font-style:normal;color:var(--uv)}
+.lede{font-size:clamp(17px,2vw,20px);max-width:56ch}
+.lede b{font-weight:600}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.reach{font-family:var(--mono);font-size:13px;color:var(--muted)}
+
+/* ficha de evidência (hero) */
+.ficha{background:var(--sheet);border:1px solid var(--rule);border-radius:12px;padding:22px;display:grid;gap:16px;position:relative}
+.ficha::before{content:"";position:absolute;left:22px;right:22px;top:0;height:3px;background:repeating-linear-gradient(90deg,var(--uv) 0 14px,transparent 14px 22px)}
+.ficha-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;border-bottom:1px dashed var(--rule);padding-bottom:12px}
+.ficha dl{margin:0;display:grid;gap:14px}
+.ficha .it{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:baseline}
+.ficha dt{font-family:var(--display);font-weight:800;font-stretch:80%;font-size:30px;line-height:1;color:var(--uv);font-variant-numeric:tabular-nums;min-width:4.2ch}
+.ficha dd{margin:0;color:var(--muted);font-size:14.5px;line-height:1.4}
+.ficha dd b{color:var(--ink);font-weight:600}
+
+/* serviços */
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.svc{background:var(--sheet);border:1px solid var(--rule);border-radius:10px;padding:22px;display:grid;grid-template-rows:auto auto 1fr auto;gap:12px}
+.svc .ico{width:40px;height:40px;border-radius:8px;background:var(--uv-soft);display:grid;place-items:center}
+.svc .ico svg{width:22px;height:22px;fill:none;stroke:var(--uv);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.svc h3{font-size:21px;font-weight:700;font-stretch:90%;line-height:1.15}
+.svc p{color:var(--muted);font-size:15px}
+.price{display:flex;justify-content:space-between;align-items:baseline;gap:8px;border-top:1px dashed var(--rule);padding-top:12px}
+.price .v{font-family:var(--display);font-weight:800;font-stretch:85%;font-size:22px;font-variant-numeric:tabular-nums}
+.price .f{font-family:var(--mono);font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.svc-note{margin-top:16px;color:var(--muted);font-size:14px}
+
+/* casos */
+.cases{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.case{background:var(--sheet);border:1px solid var(--rule);border-radius:12px;overflow:hidden;display:grid;grid-template-rows:auto 1fr}
+.case figure{margin:0;background:var(--sunk);border-bottom:1px solid var(--rule);aspect-ratio:16/9;max-width:100%}
+.case figure svg{display:block;width:100%;height:100%}
+.case-b{padding:20px 22px 22px;display:grid;gap:12px;align-content:start}
+.case-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.case h3{font-size:23px;font-weight:700;font-stretch:90%;line-height:1.1}
+.psr{margin:0;display:grid;gap:8px}
+.psr div{display:grid;grid-template-columns:92px 1fr;gap:10px}
+.psr dt{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+.psr dd{margin:0;font-size:15px}
+.psr .res dd{font-weight:600}
+.stack{display:flex;flex-wrap:wrap;gap:6px 12px;margin:0;padding:10px 0 0;list-style:none;border-top:1px dashed var(--rule)}
+.stack li{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.case-link{font-family:var(--mono);font-size:13px;text-decoration:none}
+.case-link:hover{text-decoration:underline}
+
+/* SVG das ilustrações: tudo via tokens */
+.i-bg{fill:var(--sunk)}
+.i-card{fill:var(--sheet);stroke:var(--rule);stroke-width:1}
+.i-ink{fill:var(--ink)}
+.i-mut{fill:var(--muted)}
+.i-faint{fill:var(--rule)}
+.i-acc{fill:var(--uv)}
+.i-accs{fill:var(--uv-soft)}
+.i-ok{fill:var(--ok)}
+.i-ln{fill:none;stroke:var(--rule);stroke-width:1}
+.i-road{fill:none;stroke:var(--sheet);stroke-width:9;stroke-linecap:round}
+.i-route{fill:none;stroke:var(--uv);stroke-width:3;stroke-linecap:round;stroke-dasharray:1 6}
+.i-path{fill:none;stroke:var(--uv);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.i-band{fill:var(--uv);opacity:.14}
+.i-wave{fill:none;stroke:var(--uv);stroke-width:3.5;stroke-linecap:round}
+.i-bar{fill:none;stroke:var(--ink);stroke-width:26}
+.i-txt{font-family:var(--mono);font-size:9px;fill:var(--muted)}
+.i-txt-ink{font-family:var(--mono);font-size:9px;fill:var(--ink)}
+.i-big{font-family:var(--display);font-weight:800;font-size:20px;fill:var(--ink)}
+.i-big-acc{font-family:var(--display);font-weight:800;font-size:20px;fill:var(--uv)}
+.i-arrow{fill:none;stroke:var(--muted);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+
+/* código aberto */
+.oss{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.repo{background:var(--sheet);border:1px solid var(--rule);border-radius:10px;padding:20px;display:grid;grid-template-rows:auto auto 1fr auto;gap:10px;text-decoration:none;color:var(--ink)}
+.repo:hover{border-color:var(--uv)}
+.repo .path{font-family:var(--mono);font-size:12.5px;color:var(--muted);overflow-wrap:anywhere}
+.repo h3{font-size:19px;font-weight:700;font-stretch:90%}
+.repo p{color:var(--muted);font-size:14.5px}
+.repo .go{font-family:var(--mono);font-size:12.5px;color:var(--uv)}
+.oss-more{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline;color:var(--muted);font-size:14.5px}
+.oss-more a{font-family:var(--mono);font-size:13px}
+
+/* processo */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.steps li{padding:18px 18px 0 0;display:grid;gap:8px;align-content:start}
+.steps .n{font-family:var(--mono);font-size:12px;color:var(--uv);letter-spacing:.08em}
+.steps h3{font-size:20px;font-weight:700;font-stretch:90%;line-height:1.15}
+.steps p{color:var(--muted);font-size:15px}
+
+/* confiança */
+.trust{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.trust div{display:grid;gap:6px;align-content:start}
+.trust strong{font-family:var(--display);font-size:19px;font-stretch:90%;line-height:1.2}
+.trust span{color:var(--muted);font-size:15px}
+.creds{margin-top:32px;display:flex;flex-wrap:wrap;gap:10px}
+.creds span{font-family:var(--mono);font-size:12.5px;border:1px solid var(--rule);background:var(--sheet);border-radius:6px;padding:6px 10px}
+
+/* FAQ */
+.faq{display:grid;gap:0;border-top:1px solid var(--rule);max-width:820px}
+.faq details{border-bottom:1px solid var(--rule)}
+.faq summary{cursor:pointer;list-style:none;padding:16px 36px 16px 0;font-weight:600;font-size:17px;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:12px;font:400 24px var(--mono);color:var(--uv)}
+.faq details[open] summary::after{content:"–"}
+.faq details p{padding:0 0 18px;color:var(--muted);max-width:68ch}
+
+/* orçamento */
+.quote{background:var(--band);color:var(--on-band);padding-block:72px}
+.quote .in{display:grid;grid-template-columns:1fr 1.3fr;gap:48px;align-items:start}
+.quote h2{font-size:clamp(32px,4.6vw,50px);font-weight:800;font-stretch:76%;line-height:1}
+.quote .tag{color:var(--band-muted)}
+.quote-intro{display:grid;gap:18px}
+.quote-intro p{color:var(--band-muted);font-size:17px;max-width:44ch}
+.contacts{display:grid;gap:10px;margin:8px 0 0;padding:0;list-style:none}
+.contacts li{display:grid;grid-template-columns:96px 1fr;gap:10px;align-items:baseline;border-top:1px solid var(--band-rule);padding-top:10px}
+.contacts .k{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--band-muted)}
+.contacts a{color:var(--on-band);font-family:var(--mono);font-size:14.5px;text-decoration:none;overflow-wrap:anywhere}
+.contacts a:hover{text-decoration:underline}
+form{display:grid;gap:14px;background:var(--band-field);border:1px solid var(--band-rule);border-radius:12px;padding:24px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fld{display:grid;gap:6px}
+.fld label{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--band-muted)}
+.fld input,.fld select,.fld textarea{font:400 15.5px var(--body);color:var(--on-band);background:var(--band);border:1px solid var(--band-rule);border-radius:8px;padding:11px 12px;width:100%}
+.fld textarea{min-height:120px;resize:vertical}
+.fld input::placeholder,.fld textarea::placeholder{color:var(--band-muted);opacity:.75}
+.fld [aria-invalid="true"]{border-color:#f0707a}
+.form-err{color:#ff9aa2;font-size:14px;min-height:1em}
+.form-foot{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.form-foot small{color:var(--band-muted);font-size:13px;max-width:36ch}
+.quote .btn-primary{background:#25d366;color:#0b1a10}
+.fallback{font-size:14px;color:var(--band-muted)}
+.fallback a{color:var(--on-band)}
+
+footer{padding-block:28px}
+footer .in{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+
+/* botão flutuante do WhatsApp */
+.wa-float{position:fixed;z-index:30;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));width:56px;height:56px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,.22)}
+.wa-float svg{width:30px;height:30px;fill:#fff}
+.wa-float:hover{filter:brightness(1.06)}
+
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr}
+  .svc-grid,.oss{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr 1fr;row-gap:24px}
+  .trust{grid-template-columns:1fr 1fr}
+  .quote .in{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .svc-grid,.oss,.cases,.trust,.steps{grid-template-columns:1fr}
+  .row2{grid-template-columns:1fr}
+  .psr div{grid-template-columns:1fr;gap:2px}
+  main{gap:72px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .svc,.case,.repo{transition:border-color .2s,transform .2s}
+  .case:hover,.svc:hover{border-color:var(--uv)}
+  .i-route{animation:drive 2.4s linear infinite}
+  @keyframes drive{to{stroke-dashoffset:-14}}
+}
+</style>
+</head>
+<body>
+
+
+<header class="topbar pad">
+  <div class="in">
+    <a class="brand" href="#topo">Pedro Vinícius<span>.</span></a>
+    <nav class="nav" aria-label="Seções">
+      <a class="lnk" href="#servicos"><span data-l="pt">Serviços</span><span data-l="en">Services</span></a>
+      <a class="lnk" href="#casos"><span data-l="pt">Casos</span><span data-l="en">Work</span></a>
+      <a class="lnk" href="#processo"><span data-l="pt">Como trabalho</span><span data-l="en">Process</span></a>
+      <a class="lnk" href="#faq">FAQ</a>
+      <div class="lang" role="group" aria-label="Idioma / Language">
+        <button id="btn-pt" type="button" aria-pressed="true">PT</button>
+        <button id="btn-en" type="button" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn btn-primary" href="#orcamento" style="padding:8px 14px;font-size:14px"><span data-l="pt">Orçamento</span><span data-l="en">Get a quote</span></a>
+    </nav>
+  </div>
+</header>
+
+<main class="pad" id="topo">
+  <!-- HERO -->
+  <section class="in hero">
+    <div class="hero-txt">
+      <span class="tag" data-l="pt">Desenvolvedor full stack · Perito judicial · Caruaru-PE</span>
+      <span class="tag" data-l="en">Full stack developer · Court-registered examiner · Brazil</span>
+      <h1 data-l="pt">Sistemas que tiram o <em>trabalho braçal</em> da sua empresa.</h1>
+      <h1 data-l="en">Software that takes the <em>busywork</em> off your team.</h1>
+      <p class="lede" data-l="pt">Sou <b>Pedro Vinícius</b>. Construo sistemas web, dashboards, automações e agentes de IA sob medida, do diagnóstico ao sistema rodando. Como perito judicial, trabalho com o mesmo rigor de um laudo: tudo documentado, rastreável e sob sigilo.</p>
+      <p class="lede" data-l="en">I'm <b>Pedro Vinícius</b>. I build custom web systems, dashboards, automations and AI agents, from first call to production. As a court-registered forensic examiner, I work to the standard of an expert report: documented, traceable and confidential.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#orcamento"><span data-l="pt">Pedir orçamento</span><span data-l="en">Get a quote</span></a>
+        <a class="btn btn-ghost" href="https://wa.me/5581979064200" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true" style="fill:#25d366"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.8 14.1c-.2.7-1.4 1.3-2 1.4-.5 0-1.1.2-3.6-.8-3-1.2-5-4.2-5.1-4.4-.1-.2-1.2-1.6-1.2-3.1s.8-2.2 1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.2-.3.3-.1.6.2.3.8 1.4 1.8 2.2 1.2 1.1 2.2 1.4 2.5 1.6.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3.1.2.1.8-.1 1.5Z"/></svg>
+          <span data-l="pt">Falar no WhatsApp</span><span data-l="en">Chat on WhatsApp</span>
+        </a>
+      </div>
+      <p class="reach" data-l="pt">Atendo remotamente em todo o Brasil · diagnóstico gratuito de 30 min</p>
+      <p class="reach" data-l="en">Remote, worldwide · free 30-minute discovery call</p>
+    </div>
+
+    <aside class="ficha" aria-label="Ficha técnica">
+      <div class="ficha-h">
+        <span class="tag" data-l="pt">Ficha técnica</span><span class="tag" data-l="en">Fact sheet</span>
+        <span class="tag">PVMA · 2026</span>
+      </div>
+      <dl>
+        <div class="it"><dt>10+</dt><dd data-l="pt"><b>sistemas construídos</b> e em uso por empresas, do código ao servidor</dd><dd data-l="en"><b>systems built</b> and in daily use, from code to server</dd></div>
+        <div class="it"><dt>1.700+</dt><dd data-l="pt"><b>dispositivos monitorados</b> em tempo real por uma plataforma de telemetria que desenvolvo e opero</dd><dd data-l="en"><b>devices monitored</b> live by a telemetry platform I build and run</dd></div>
+        <div class="it"><dt>1</dt><dd data-l="pt"><b>clique</b> entre a venda na loja virtual e a etiqueta dos Correios impressa</dd><dd data-l="en"><b>click</b> from an online sale to a printed shipping label</dd></div>
+        <div class="it"><dt>TJMG</dt><dd data-l="pt"><b>perito grafotécnico e documentoscópico</b> no cadastro de auxiliares da Justiça</dd><dd data-l="en"><b>handwriting and document examiner</b> registered with a state court</dd></div>
+      </dl>
+    </aside>
+  </section>
+
+  <!-- SERVIÇOS -->
+  <section class="in" id="servicos" aria-labelledby="h-svc">
+    <div class="sec-head">
+      <span class="tag" data-l="pt">Serviços</span><span class="tag" data-l="en">Services</span>
+      <h2 id="h-svc" data-l="pt">O que posso resolver para você</h2><h2 data-l="en">What I can solve for you</h2>
+      <p data-l="pt">Cada serviço descrito pelo que muda no seu dia a dia. Os valores são de referência; o preço fechado sai na proposta, depois do diagnóstico.</p>
+      <p data-l="en">Each service described by what changes for you. Prices are starting points; the fixed price comes in the proposal, after the discovery call.</p>
+    </div>
+    <div class="svc-grid">
+      <article class="svc">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 7l4-4 4 4M8 3v12M20 17l-4 4-4-4M16 21V9"/></svg></div>
+        <h3 data-l="pt">Automação e integrações</h3><h3 data-l="en">Automation &amp; integrations</h3>
+        <p data-l="pt">Sua loja, planilha, ERP e Correios conversando sozinhos. Some a digitação repetida e o erro de copiar e colar.</p>
+        <p data-l="en">Your store, spreadsheets, ERP and carriers talking to each other. No more retyping or copy-paste errors.</p>
+        <div class="price"><span class="f" data-l="pt">a partir de</span><span class="f" data-l="en">from</span><span class="v" data-l="pt">R$ 900</span><span class="v" data-l="en">US$ 300</span></div>
+      </article>
+      <article class="svc">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div>
+        <h3 data-l="pt">Dashboard de BI</h3><h3 data-l="en">BI dashboard</h3>
+        <p data-l="pt">Vendas, estoque, metas e equipe numa tela que atualiza sozinha. Você decide olhando número, não planilha de fim de mês.</p>
+        <p data-l="en">Sales, stock, targets and team on one self-updating screen. Decide from live numbers, not month-end spreadsheets.</p>
+        <div class="price"><span class="f" data-l="pt">a partir de</span><span class="f" data-l="en">from</span><span class="v" data-l="pt">R$ 4.000</span><span class="v" data-l="en">US$ 1,300</span></div>
+      </article>
+      <article class="svc">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4V5z"/><path d="M9 10h.01M12 10h.01M15 10h.01"/></svg></div>
+        <h3 data-l="pt">Agente de IA para atendimento</h3><h3 data-l="en">AI support agent</h3>
+        <p data-l="pt">Um assistente no WhatsApp ou no site que responde clientes, tira dúvidas e passa para um humano quando precisa.</p>
+        <p data-l="en">An assistant on WhatsApp or your site that answers customers and hands over to a person when needed.</p>
+        <div class="price"><span class="f" data-l="pt">a partir de</span><span class="f" data-l="en">from</span><span class="v" data-l="pt">R$ 5.000</span><span class="v" data-l="en">US$ 1,700</span></div>
+      </article>
+      <article class="svc">
+        <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 14h3M8 17h6"/></svg></div>
+        <h3 data-l="pt">Sistema web sob medida</h3><h3 data-l="en">Custom web system</h3>
+        <p data-l="pt">Do controle interno ao SaaS com várias empresas e perfis de acesso. Feito para o seu processo, não o contrário.</p>
+        <p data-l="en">From internal tools to multi-tenant SaaS with role-based access. Built around your process.</p>
+        <div class="price"><span class="f" data-l="pt">a partir de</span><span class="f" data-l="en">from</span><span class="v" data-l="pt">R$ 6.000</span><span class="v" data-l="en">US$ 2,000</span></div>
+      </article>
+      <article class="svc">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3 data-l="pt">Revisão de segurança e LGPD</h3><h3 data-l="en">Security &amp; privacy review</h3>
+        <p data-l="pt">Reviso seu sistema ou site: senhas, acessos, dados pessoais e backups. Você recebe um relatório com o que corrigir primeiro.</p>
+        <p data-l="en">I review your system or site: passwords, access, personal data and backups. You get a report ranked by what to fix first.</p>
+        <div class="price"><span class="f" data-l="pt">a partir de</span><span class="f" data-l="en">from</span><span class="v" data-l="pt">R$ 1.200</span><span class="v" data-l="en">US$ 400</span></div>
+      </article>
+      <article class="svc">
+        <div class="ico"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="M14.5 14.5L21 21M7 11c1-2 2 1 3-1s2 1 3-1"/></svg></div>
+        <h3 data-l="pt">Perícia grafotécnica e documentoscópica</h3><h3 data-l="en">Handwriting &amp; document examination</h3>
+        <p data-l="pt">Assinatura ou documento contestado? Parecer técnico para advogados, empresas e particulares, ou atuação como assistente técnico no processo.</p>
+        <p data-l="en">Disputed signature or document? Expert opinion for lawyers and companies in Brazilian proceedings.</p>
+        <div class="price"><span class="f" data-l="pt">a partir de</span><span class="f" data-l="en">from</span><span class="v" data-l="pt">R$ 1.500</span><span class="v" data-l="en">US$ 500</span></div>
+      </article>
+    </div>
+    <p class="svc-note" data-l="pt"><b>Custos mensais à parte:</b> o servidor onde o sistema roda é cobrado todo mês, conforme o uso. A manutenção também é mensal, a partir de R$ 350, e cobre atualizações, monitoramento e ajustes pequenos.</p>
+    <p class="svc-note" data-l="en"><b>Monthly costs are separate:</b> the server that runs your system is billed monthly, based on usage. Maintenance is also monthly, from US$ 120, covering updates, monitoring and small changes.</p>
+  </section>
+
+  <!-- CASOS -->
+  <section class="in" id="casos" aria-labelledby="h-cases">
+    <div class="sec-head">
+      <span class="tag" data-l="pt">Casos</span><span class="tag" data-l="en">Case files</span>
+      <h2 id="h-cases" data-l="pt">Sistemas reais, rodando em empresas reais</h2><h2 data-l="en">Real systems, running in real businesses</h2>
+      <p data-l="pt">Problema, solução e resultado. Alguns clientes pedem sigilo; nesses casos mostro o tipo de trabalho, sem nomes.</p>
+      <p data-l="en">Problem, solution, result. Some clients require confidentiality; for those I show the kind of work, without names.</p>
+    </div>
+    <div class="cases">
+
+      <!-- 1. Telemetria -->
+      <article class="case">
+        <figure>
+          <svg viewBox="0 0 320 180" role="img" aria-label="Mapa com rota de um rastreador e painel de status">
+            <rect class="i-bg" width="320" height="180"/>
+            <path class="i-ln" d="M0 30H320M0 60H320M0 90H320M0 120H320M0 150H320M40 0V180M80 0V180M120 0V180M160 0V180M200 0V180M240 0V180M280 0V180"/>
+            <path class="i-road" d="M-10 150C50 132 84 76 150 80S250 46 330 28"/>
+            <path class="i-road" d="M58 -10C70 60 128 118 116 190"/>
+            <path class="i-road" d="M190 190C196 140 220 110 330 104"/>
+            <path class="i-route" d="M24 142C60 128 88 82 150 82S238 54 286 38"/>
+            <circle class="i-accs" cx="286" cy="38" r="12"/><circle class="i-acc" cx="286" cy="38" r="5"/>
+            <circle class="i-acc" cx="24" cy="142" r="4"/>
+            <circle class="i-ink" cx="104" cy="98" r="3.5"/><circle class="i-ink" cx="168" cy="60" r="3.5"/><circle class="i-ink" cx="222" cy="120" r="3.5"/><circle class="i-ink" cx="66" cy="40" r="3.5"/>
+            <rect class="i-card" x="200" y="120" width="108" height="50" rx="6"/>
+            <circle class="i-ok" cx="212" cy="134" r="3"/><text class="i-txt-ink" x="220" y="137">GPS · online</text>
+            <circle class="i-acc" cx="212" cy="148" r="3"/><text class="i-txt-ink" x="220" y="151">BLE · 12 tags</text>
+            <rect class="i-faint" x="208" y="158" width="88" height="4" rx="2"/>
+            <text class="i-txt" x="12" y="20">1.700+ dispositivos</text>
+          </svg>
+        </figure>
+        <div class="case-b">
+          <div class="case-top"><h3 data-l="pt">Plataforma de telemetria e rastreamento</h3><h3 data-l="en">Telemetry &amp; tracking platform</h3><span class="chip" data-l="pt">Confidencial</span><span class="chip" data-l="en">Confidential</span></div>
+          <dl class="psr">
+            <div><dt data-l="pt">Problema</dt><dt data-l="en">Problem</dt><dd data-l="pt">A empresa dependia de vários softwares comerciais caros que não conversavam entre si.</dd><dd data-l="en">The client depended on several expensive commercial tools that didn't talk to each other.</dd></div>
+            <div><dt data-l="pt">Solução</dt><dt data-l="en">Solution</dt><dd data-l="pt">Uma plataforma própria, que desenvolvo e opero sozinho: telemetria em tempo real com rastreadores GPS e sensores BLE, alertas, painel de operação, leitura automática de documentos e CRM com chat.</dd><dd data-l="en">An in-house platform I build and run solo: real-time telemetry from GPS trackers and BLE sensors, alerts, an operations dashboard, automatic document reading and a CRM with chat.</dd></div>
+            <div class="res"><dt data-l="pt">Resultado</dt><dt data-l="en">Result</dt><dd data-l="pt">Mais de 1.700 dispositivos monitorados em tempo real e sistemas legados migrados sem parar a operação.</dd><dd data-l="en">1,700+ devices monitored live, and legacy systems migrated without stopping operations.</dd></div>
+          </dl>
+          <ul class="stack"><li>FastAPI</li><li>PostgreSQL</li><li>Redis</li><li>OCR</li><li>Docker</li></ul>
+        </div>
+      </article>
+
+      <!-- 2. BI varejo -->
+      <article class="case">
+        <figure>
+          <svg viewBox="0 0 320 180" role="img" aria-label="Dashboard com indicadores, gráfico de barras e ranking">
+            <rect class="i-bg" width="320" height="180"/>
+            <rect class="i-card" x="14" y="14" width="292" height="152" rx="8"/>
+            <rect class="i-accs" x="26" y="26" width="82" height="36" rx="5"/><text class="i-txt" x="34" y="40">VENDAS</text><text class="i-big-acc" x="34" y="57" style="font-size:15px">R$ 84k</text>
+            <rect class="i-faint" x="116" y="26" width="82" height="36" rx="5" style="opacity:.55"/><text class="i-txt" x="124" y="40">TICKET</text><text class="i-big" x="124" y="57" style="font-size:15px">R$ 212</text>
+            <rect class="i-faint" x="206" y="26" width="88" height="36" rx="5" style="opacity:.55"/><text class="i-txt" x="214" y="40">META</text><text class="i-big" x="214" y="57" style="font-size:15px">91%</text>
+            <path class="i-ln" d="M28 150H190M28 120H190M28 90H190"/>
+            <rect class="i-acc" x="34" y="112" width="14" height="38" rx="2"/><rect class="i-acc" x="56" y="98" width="14" height="52" rx="2"/><rect class="i-acc" x="78" y="120" width="14" height="30" rx="2"/><rect class="i-acc" x="100" y="90" width="14" height="60" rx="2"/><rect class="i-acc" x="122" y="104" width="14" height="46" rx="2"/><rect class="i-acc" x="144" y="80" width="14" height="70" rx="2"/><rect class="i-ink" x="166" y="76" width="14" height="74" rx="2"/>
+            <text class="i-txt" x="206" y="84">RANKING</text>
+            <text class="i-txt-ink" x="206" y="100">1 Ana</text><rect class="i-acc" x="244" y="94" width="50" height="6" rx="3"/>
+            <text class="i-txt-ink" x="206" y="116">2 Bia</text><rect class="i-acc" x="244" y="110" width="40" height="6" rx="3" style="opacity:.75"/>
+            <text class="i-txt-ink" x="206" y="132">3 Carla</text><rect class="i-acc" x="244" y="126" width="31" height="6" rx="3" style="opacity:.55"/>
+            <text class="i-txt-ink" x="206" y="148">4 Duda</text><rect class="i-acc" x="244" y="142" width="22" height="6" rx="3" style="opacity:.4"/>
+          </svg>
+        </figure>
+        <div class="case-b">
+          <div class="case-top"><h3 data-l="pt">BI para rede de varejo</h3><h3 data-l="en">Retail chain BI</h3><span class="chip" data-l="pt">Varejo · BI</span><span class="chip" data-l="en">Retail · BI</span></div>
+          <dl class="psr">
+            <div><dt data-l="pt">Problema</dt><dt data-l="en">Problem</dt><dd data-l="pt">Uma rede de moda acompanhava vendas e estoque em planilhas montadas à mão.</dd><dd data-l="en">A fashion retailer tracked sales and stock in hand-built spreadsheets.</dd></div>
+            <div><dt data-l="pt">Solução</dt><dt data-l="en">Solution</dt><dd data-l="pt">BI web integrado à loja virtual, com acesso separado para dona, gerente e vendedora.</dd><dd data-l="en">Web BI synced with the online store, with separate views for owner, manager and sales staff.</dd></div>
+            <div class="res"><dt data-l="pt">Resultado</dt><dt data-l="en">Result</dt><dd data-l="pt">24 telas em uso diário: vendas, metas, ranking de vendedoras e giro de produto.</dd><dd data-l="en">24 screens in daily use: sales, targets, staff ranking and product turnover.</dd></div>
+          </dl>
+          <ul class="stack"><li>ETL</li><li>FastAPI</li><li>PostgreSQL</li><li data-l="pt">37 versões</li><li data-l="en">37 releases</li></ul>
+        </div>
+      </article>
+
+      <!-- 3. Etiquetas Correios -->
+      <article class="case">
+        <figure>
+          <svg viewBox="0 0 320 180" role="img" aria-label="Pedido da loja virando etiqueta de envio com código de barras">
+            <rect class="i-bg" width="320" height="180"/>
+            <rect class="i-card" x="18" y="40" width="96" height="100" rx="7"/>
+            <text class="i-txt" x="28" y="58">PEDIDO #4821</text>
+            <rect class="i-faint" x="28" y="66" width="76" height="5" rx="2.5"/><rect class="i-faint" x="28" y="76" width="56" height="5" rx="2.5"/><rect class="i-faint" x="28" y="86" width="66" height="5" rx="2.5"/>
+            <rect class="i-ok" x="28" y="110" width="50" height="16" rx="8"/><text x="36" y="121" style="font-family:var(--mono);font-size:8px;fill:#fff">PAGO</text>
+            <path class="i-arrow" d="M124 90H170M162 82l8 8-8 8"/>
+            <text class="i-txt" x="128" y="80">1 clique</text>
+            <rect class="i-card" x="182" y="16" width="122" height="148" rx="4"/>
+            <rect class="i-ink" x="192" y="26" width="34" height="12" rx="2"/><text x="196" y="35" style="font-family:var(--mono);font-size:8px;fill:var(--sheet)">SEDEX</text>
+            <line class="i-bar" x1="192" y1="62" x2="294" y2="62" style="stroke-dasharray:2 1 1 2 3 1 1 1 2 2 1 3 2 1 1 1 3 2 1 2 2 1 1 3 1 1 2 2 3 1 1 2 1 1 2 3 1 2 2 1"/>
+            <text class="i-txt" x="192" y="86">AA 123 456 789 BR</text>
+            <rect class="i-faint" x="192" y="96" width="70" height="5" rx="2.5"/><rect class="i-faint" x="192" y="106" width="86" height="5" rx="2.5"/><rect class="i-faint" x="192" y="116" width="58" height="5" rx="2.5"/>
+            <rect class="i-ink" x="262" y="124" width="32" height="32" rx="1"/>
+            <rect style="fill:var(--sheet)" x="266" y="128" width="9" height="9"/><rect style="fill:var(--sheet)" x="281" y="128" width="9" height="9"/><rect style="fill:var(--sheet)" x="266" y="143" width="9" height="9"/><rect style="fill:var(--sheet)" x="281" y="143" width="5" height="5"/>
+            <rect class="i-ink" x="268" y="130" width="5" height="5"/><rect class="i-ink" x="283" y="130" width="5" height="5"/><rect class="i-ink" x="268" y="145" width="5" height="5"/>
+          </svg>
+        </figure>
+        <div class="case-b">
+          <div class="case-top"><h3 data-l="pt">Loja virtual ↔ Correios</h3><h3 data-l="en">Online store ↔ postal service</h3><span class="chip" data-l="pt">Integração</span><span class="chip" data-l="en">Integration</span></div>
+          <dl class="psr">
+            <div><dt data-l="pt">Problema</dt><dt data-l="en">Problem</dt><dd data-l="pt">A expedição copiava cada pedido à mão no site dos Correios. Não escalava em data comemorativa.</dd><dd data-l="en">Shipping staff retyped every order on the carrier's site. It broke down on peak dates.</dd></div>
+            <div><dt data-l="pt">Solução</dt><dt data-l="en">Solution</dt><dd data-l="pt">O pedido pago chega sozinho, a tela da expedição atualiza ao vivo e a etiqueta sai em PDF com código de barras e nota fiscal junto.</dd><dd data-l="en">Paid orders arrive automatically, the shipping screen updates live, and the label prints as a PDF with barcode and invoice.</dd></div>
+            <div class="res"><dt data-l="pt">Resultado</dt><dt data-l="en">Result</dt><dd data-l="pt">Da venda à etiqueta em um clique. Construído num feriado e em produção desde então.</dd><dd data-l="en">Sale to label in one click. Built over a holiday, in production since.</dd></div>
+          </dl>
+          <ul class="stack"><li>Webhooks</li><li>SSE</li><li>Code 128 · QR</li><li data-l="pt">API dos Correios</li><li data-l="en">Correios API</li></ul>
+        </div>
+      </article>
+
+      <!-- 4. NR-1 -->
+      <article class="case">
+        <figure>
+          <svg viewBox="0 0 320 180" role="img" aria-label="Questionário em escala e matriz de risco">
+            <rect class="i-bg" width="320" height="180"/>
+            <rect class="i-card" x="16" y="18" width="150" height="144" rx="7"/>
+            <text class="i-txt" x="26" y="36">QUESTIONÁRIO · HSE-IT</text>
+            <g>
+              <rect class="i-faint" x="26" y="46" width="110" height="5" rx="2.5"/>
+              <circle class="i-faint" cx="32" cy="62" r="5"/><circle class="i-faint" cx="52" cy="62" r="5"/><circle class="i-acc" cx="72" cy="62" r="5"/><circle class="i-faint" cx="92" cy="62" r="5"/><circle class="i-faint" cx="112" cy="62" r="5"/>
+              <rect class="i-faint" x="26" y="80" width="96" height="5" rx="2.5"/>
+              <circle class="i-faint" cx="32" cy="96" r="5"/><circle class="i-faint" cx="52" cy="96" r="5"/><circle class="i-faint" cx="72" cy="96" r="5"/><circle class="i-acc" cx="92" cy="96" r="5"/><circle class="i-faint" cx="112" cy="96" r="5"/>
+              <rect class="i-faint" x="26" y="114" width="118" height="5" rx="2.5"/>
+              <circle class="i-acc" cx="32" cy="130" r="5"/><circle class="i-faint" cx="52" cy="130" r="5"/><circle class="i-faint" cx="72" cy="130" r="5"/><circle class="i-faint" cx="92" cy="130" r="5"/><circle class="i-faint" cx="112" cy="130" r="5"/>
+            </g>
+            <text class="i-txt" x="186" y="36">RISCO PSICOSSOCIAL</text>
+            <g>
+              <rect class="i-acc" x="186" y="46" width="26" height="26" rx="3" style="opacity:.25"/><rect class="i-acc" x="216" y="46" width="26" height="26" rx="3" style="opacity:.5"/><rect class="i-acc" x="246" y="46" width="26" height="26" rx="3" style="opacity:.8"/><rect class="i-acc" x="276" y="46" width="26" height="26" rx="3"/>
+              <rect class="i-acc" x="186" y="76" width="26" height="26" rx="3" style="opacity:.15"/><rect class="i-acc" x="216" y="76" width="26" height="26" rx="3" style="opacity:.35"/><rect class="i-acc" x="246" y="76" width="26" height="26" rx="3" style="opacity:.6"/><rect class="i-acc" x="276" y="76" width="26" height="26" rx="3" style="opacity:.8"/>
+              <rect class="i-acc" x="186" y="106" width="26" height="26" rx="3" style="opacity:.08"/><rect class="i-acc" x="216" y="106" width="26" height="26" rx="3" style="opacity:.2"/><rect class="i-acc" x="246" y="106" width="26" height="26" rx="3" style="opacity:.35"/><rect class="i-acc" x="276" y="106" width="26" height="26" rx="3" style="opacity:.55"/>
+            </g>
+            <rect class="i-card" x="186" y="140" width="116" height="22" rx="4"/><text class="i-txt-ink" x="194" y="154">relatório PDF · NR-1</text>
+          </svg>
+        </figure>
+        <div class="case-b">
+          <div class="case-top"><h3 data-l="pt">Plataforma de riscos psicossociais</h3><h3 data-l="en">Psychosocial risk platform</h3><span class="chip">SaaS · NR-1</span></div>
+          <dl class="psr">
+            <div><dt data-l="pt">Problema</dt><dt data-l="en">Problem</dt><dd data-l="pt">A nova NR-1 obriga empresas a avaliar riscos psicossociais, e o processo era feito em papel e planilha.</dd><dd data-l="en">Brazil's updated NR-1 rule requires psychosocial risk assessments, which were done on paper.</dd></div>
+            <div><dt data-l="pt">Solução</dt><dt data-l="en">Solution</dt><dd data-l="pt">Plataforma para várias empresas, com questionários validados (HSE-IT, COPSOQ II, PROART) e dados pessoais cifrados.</dd><dd data-l="en">A multi-company platform with validated questionnaires (HSE-IT, COPSOQ II, PROART) and encrypted personal data.</dd></div>
+            <div class="res"><dt data-l="pt">Resultado</dt><dt data-l="en">Result</dt><dd data-l="pt">Do questionário respondido ao relatório técnico em PDF, sem consolidar nada à mão.</dd><dd data-l="en">From answered questionnaire to technical PDF report, with no manual consolidation.</dd></div>
+          </dl>
+          <ul class="stack"><li>Multi-tenant</li><li data-l="pt">perfis de acesso</li><li data-l="en">role-based access</li><li>LGPD</li></ul>
+        </div>
+      </article>
+
+      <!-- 5. JARVIS -->
+      <article class="case">
+        <figure>
+          <svg viewBox="0 0 320 180" role="img" aria-label="Onda de voz e registro de auditoria do assistente">
+            <rect class="i-bg" width="320" height="180"/>
+            <circle class="i-accs" cx="70" cy="90" r="46"/>
+            <path class="i-wave" d="M34 90v0M44 82v16M54 70v40M64 60v60M74 74v32M84 66v48M94 80v20M104 88v4"/>
+            <rect class="i-card" x="140" y="26" width="164" height="128" rx="7"/>
+            <text class="i-txt" x="150" y="44">AUDITORIA · AO VIVO</text>
+            <circle class="i-ok" cx="154" cy="62" r="3"/><text class="i-txt-ink" x="162" y="65">ouvi: "resumo do dia"</text>
+            <circle class="i-ok" cx="154" cy="80" r="3"/><text class="i-txt-ink" x="162" y="83">modelo local · 6 GB</text>
+            <circle class="i-acc" cx="154" cy="98" r="3"/><text class="i-txt-ink" x="162" y="101">pedir permissão?</text>
+            <circle class="i-ok" cx="154" cy="116" r="3"/><text class="i-txt-ink" x="162" y="119">permitido por voz</text>
+            <rect class="i-faint" x="150" y="132" width="120" height="5" rx="2.5"/>
+          </svg>
+        </figure>
+        <div class="case-b">
+          <div class="case-top"><h3>JARVIS</h3><span class="chip" data-l="pt">Projeto próprio · IA</span><span class="chip" data-l="en">Own project · AI</span></div>
+          <dl class="psr">
+            <div><dt data-l="pt">Desafio</dt><dt data-l="en">Challenge</dt><dd data-l="pt">Um assistente de voz em português que funcione no notebook, sem mandar tudo para a nuvem.</dd><dd data-l="en">A Portuguese voice assistant that runs on a laptop without sending everything to the cloud.</dd></div>
+            <div><dt data-l="pt">Solução</dt><dt data-l="en">Solution</dt><dd data-l="pt">Reconhecimento de fala e modelos locais no dia a dia; modelos de ponta só com permissão falada, e cada passo numa janela de auditoria.</dd><dd data-l="en">Local speech recognition and models for everyday tasks; frontier models only with spoken permission, every step in an audit window.</dd></div>
+            <div class="res"><dt data-l="pt">Mostra que</dt><dt data-l="en">Shows</dt><dd data-l="pt">Sei montar agentes de IA com controle de custo, privacidade e registro do que foi feito.</dd><dd data-l="en">I can build AI agents with cost control, privacy and a record of every action.</dd></div>
+          </dl>
+          <ul class="stack"><li>NVIDIA Parakeet</li><li>Ollama</li><li>Claude Agent SDK</li></ul>
+        </div>
+      </article>
+
+      <!-- 6. D-MAIL -->
+      <article class="case">
+        <figure>
+          <svg viewBox="0 0 320 180" role="img" aria-label="Gráfico de probabilidade prevista ao longo do tempo, terminando em 62 por cento">
+            <rect class="i-bg" width="320" height="180"/>
+            <path class="i-ln" d="M40 30H296M40 90H296M40 150H296"/>
+            <text class="i-txt" x="10" y="33">100%</text><text class="i-txt" x="14" y="93">50%</text><text class="i-txt" x="20" y="153">0%</text>
+            <path class="i-band" d="M40 104L80 98L120 106L160 92L200 86L240 80L280 72L280 82L240 92L200 100L160 108L120 118L80 112L40 118Z"/>
+            <path class="i-path" d="M40 111L80 105L120 112L160 100L200 93L240 86L280 77.6"/>
+            <circle class="i-acc" cx="280" cy="77.6" r="5"/>
+            <text class="i-big-acc" x="244" y="66" style="font-size:16px">62%</text>
+            <rect class="i-card" x="48" y="38" width="128" height="34" rx="5"/>
+            <text class="i-txt-ink" x="56" y="52">busca notícias → LLM</text>
+            <text class="i-txt" x="56" y="65">publica sozinho · diário</text>
+          </svg>
+        </figure>
+        <div class="case-b">
+          <div class="case-top"><h3>D-MAIL</h3><span class="chip" data-l="pt">Código aberto · IA</span><span class="chip" data-l="en">Open source · AI</span></div>
+          <dl class="psr">
+            <div><dt data-l="pt">Desafio</dt><dt data-l="en">Challenge</dt><dd data-l="pt">Competir no torneio de bots de previsão da Metaculus contra equipes do mundo inteiro.</dd><dd data-l="en">Compete in Metaculus's forecasting-bot tournament against teams worldwide.</dd></div>
+            <div><dt data-l="pt">Solução</dt><dt data-l="en">Solution</dt><dd data-l="pt">Um bot que pesquisa notícias, estima probabilidades com vários modelos de IA e publica as previsões sozinho.</dd><dd data-l="en">A bot that searches the news, estimates probabilities with several AI models and posts forecasts on its own.</dd></div>
+            <div class="res"><dt data-l="pt">Mostra que</dt><dt data-l="en">Shows</dt><dd data-l="pt">Sei colocar IA para trabalhar sozinha, todos os dias, com custo controlado.</dd><dd data-l="en">I can put AI to work unattended, daily, at a controlled cost.</dd></div>
+          </dl>
+          <a class="case-link" href="https://github.com/Pedro-Vinicius-MA/d-mail-bot" target="_blank" rel="noopener"><span data-l="pt">Ver o código no GitHub →</span><span data-l="en">View code on GitHub →</span></a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- CÓDIGO ABERTO -->
+  <section class="in" id="codigo" aria-labelledby="h-oss">
+    <div class="sec-head">
+      <span class="tag" data-l="pt">Código aberto</span><span class="tag" data-l="en">Open source</span>
+      <h2 id="h-oss" data-l="pt">Confira o código você mesmo</h2><h2 data-l="en">Check the code yourself</h2>
+      <p data-l="pt">Os sistemas de clientes são privados. Estes são públicos, para você avaliar como eu escrevo e documento.</p>
+      <p data-l="en">Client systems are private. These are public, so you can judge how I write and document code.</p>
+    </div>
+    <div class="oss">
+      <a class="repo" href="https://github.com/Pedro-Vinicius-MA/d-mail-bot" target="_blank" rel="noopener">
+        <span class="path">Pedro-Vinicius-MA/d-mail-bot</span>
+        <h3 data-l="pt">D-MAIL · bot de previsão</h3><h3 data-l="en">D-MAIL · forecasting bot</h3>
+        <p data-l="pt">Python, vários LLMs e GitHub Actions publicando previsões automaticamente na Metaculus.</p>
+        <p data-l="en">Python, multiple LLMs and GitHub Actions posting forecasts to Metaculus automatically.</p>
+        <span class="go">github →</span>
+      </a>
+      <a class="repo" href="https://github.com/Pedro-Vinicius-MA/Divergence-Meter-Web-TimeLine" target="_blank" rel="noopener">
+        <span class="path">Pedro-Vinicius-MA/Divergence-Meter-Web-TimeLine</span>
+        <h3 data-l="pt">Medidor de Divergência</h3><h3 data-l="en">Divergence Meter</h3>
+        <p data-l="pt">Mostrador de tubos Nixie animado no navegador. Um exercício de interface e animação em HTML, CSS e JavaScript.</p>
+        <p data-l="en">An animated Nixie-tube display in the browser. An interface and animation exercise in HTML, CSS and JavaScript.</p>
+        <span class="go">github →</span>
+      </a>
+      <a class="repo" href="https://www.hackster.io/Hououin_Kyouma/carrinho-controlado-remotamente-ec425f" target="_blank" rel="noopener">
+        <span class="path">hackster.io/Hououin_Kyouma</span>
+        <h3 data-l="pt">Carrinho solar por rádio</h3><h3 data-l="en">Solar radio-controlled car</h3>
+        <p data-l="pt">Dois Arduinos conversando por rádio de 433 MHz, direção por servo e placas solares. Esquemas e código abertos; 4,7 mil visualizações.</p>
+        <p data-l="en">Two Arduinos over 433 MHz radio, servo steering and solar panels. Open schematics and code; 4.7k views.</p>
+        <span class="go">hackster →</span>
+      </a>
+    </div>
+    <div class="oss-more">
+      <span data-l="pt">Também no GitHub, da graduação:</span><span data-l="en">Also on GitHub, from university:</span>
+      <a href="https://github.com/Pedro-Vinicius-MA/CRUD-de-Sistema-Bancario-em-C" target="_blank" rel="noopener">sistema bancário em C</a>
+      <a href="https://github.com/Pedro-Vinicius-MA/FilmesSpring" target="_blank" rel="noopener">FilmesSpring · Java Spring</a>
+      <a href="https://github.com/Pedro-Vinicius-MA" target="_blank" rel="noopener"><span data-l="pt">perfil completo →</span><span data-l="en">full profile →</span></a>
+    </div>
+  </section>
+
+  <!-- PROCESSO -->
+  <section class="in" id="processo" aria-labelledby="h-proc">
+    <div class="sec-head">
+      <span class="tag" data-l="pt">Como trabalho</span><span class="tag" data-l="en">How I work</span>
+      <h2 id="h-proc" data-l="pt">Você sabe o preço e o prazo antes de começar</h2><h2 data-l="en">You know the price and timeline before we start</h2>
+    </div>
+    <ol class="steps">
+      <li><span class="n" data-l="pt">ETAPA 1</span><span class="n" data-l="en">STEP 1</span><h3 data-l="pt">Diagnóstico gratuito</h3><h3 data-l="en">Free discovery call</h3><p data-l="pt">30 minutos para entender o problema, o processo atual e o que precisa mudar.</p><p data-l="en">30 minutes to understand the problem, your current process and what has to change.</p></li>
+      <li><span class="n" data-l="pt">ETAPA 2</span><span class="n" data-l="en">STEP 2</span><h3 data-l="pt">Proposta fechada</h3><h3 data-l="en">Fixed proposal</h3><p data-l="pt">Escopo, prazo e preço por escrito. Sem surpresa no meio do caminho.</p><p data-l="en">Scope, timeline and price in writing. No surprises midway.</p></li>
+      <li><span class="n" data-l="pt">ETAPA 3</span><span class="n" data-l="en">STEP 3</span><h3 data-l="pt">Entregas semanais</h3><h3 data-l="en">Weekly deliveries</h3><p data-l="pt">Você acompanha e testa o sistema enquanto ele é construído, num ambiente de teste.</p><p data-l="en">You follow and test the system as it's built, in a staging environment.</p></li>
+      <li><span class="n" data-l="pt">ETAPA 4</span><span class="n" data-l="en">STEP 4</span><h3 data-l="pt">Entrega e suporte</h3><h3 data-l="en">Handover &amp; support</h3><p data-l="pt">Treinamento da equipe, 30 dias de correções sem custo e manutenção mensal opcional.</p><p data-l="en">Team training, 30 days of free fixes and optional monthly maintenance.</p></li>
+    </ol>
+  </section>
+
+  <!-- CONFIANÇA -->
+  <section class="in" aria-labelledby="h-trust">
+    <div class="sec-head">
+      <span class="tag" data-l="pt">Por que confiar</span><span class="tag" data-l="en">Why trust me</span>
+      <h2 id="h-trust" data-l="pt">Rigor de perito no seu sistema</h2><h2 data-l="en">An examiner's rigor in your software</h2>
+    </div>
+    <div class="trust">
+      <div><strong data-l="pt">Sistemas em produção</strong><strong data-l="en">Running in production</strong><span data-l="pt">Não são protótipos: empresas usam meus sistemas todos os dias, e eu cuido deles.</span><span data-l="en">Not prototypes: businesses use my systems every day, and I maintain them.</span></div>
+      <div><strong data-l="pt">Sigilo e LGPD</strong><strong data-l="en">Confidentiality &amp; privacy</strong><span data-l="pt">Contrato de confidencialidade, dados pessoais cifrados, controle de acesso e backup desde o início.</span><span data-l="en">NDA, encrypted personal data, access control and backups from day one.</span></div>
+      <div><strong data-l="pt">O sistema é seu</strong><strong data-l="en">You own it</strong><span data-l="pt">Ao final você recebe o código-fonte, os acessos e a documentação.</span><span data-l="en">At the end you get the source code, credentials and documentation.</span></div>
+      <div><strong data-l="pt">Um responsável</strong><strong data-l="en">One accountable person</strong><span data-l="pt">Você fala direto com quem projeta, programa e coloca no ar. Sem intermediário.</span><span data-l="en">You talk directly to the person who designs, codes and deploys. No middlemen.</span></div>
+    </div>
+    <div class="creds">
+      <span data-l="pt">Bacharel em Sistemas de Informação · UPE</span><span data-l="en">B.Sc. Information Systems · UPE</span>
+      <span data-l="pt">Perito grafotécnico e documentoscópico · TJMG</span><span data-l="en">Handwriting &amp; document examiner · TJMG</span>
+      <span data-l="pt">Certificações Jus Expert: perito judicial e avaliação de bens</span><span data-l="en">Jus Expert certificates: court expert, asset appraisal</span>
+      <span>Python · FastAPI · PostgreSQL · Power BI · Docker</span>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="in" id="faq" aria-labelledby="h-faq">
+    <div class="sec-head">
+      <span class="tag" data-l="pt">Perguntas frequentes</span><span class="tag" data-l="en">FAQ</span>
+      <h2 id="h-faq" data-l="pt">Antes de pedir o orçamento</h2><h2 data-l="en">Before you ask for a quote</h2>
+    </div>
+    <div class="faq">
+      <details><summary><span data-l="pt">Quanto custa, de verdade?</span><span data-l="en">What does it actually cost?</span></summary><p data-l="pt">Os valores "a partir de" valem para projetos menores. O preço exato sai na proposta, depois do diagnóstico, e não muda sem você aprovar. Dá para parcelar por entrega. O servidor e a manutenção são cobrados à parte, todo mês, e já vêm estimados na proposta.</p><p data-l="en">The "from" prices cover smaller projects. The exact price comes in the proposal after the call and doesn't change without your approval. Payment can be split by milestone. Server and maintenance are billed separately each month, and the proposal includes an estimate.</p></details>
+      <details><summary><span data-l="pt">Quanto tempo leva?</span><span data-l="en">How long does it take?</span></summary><p data-l="pt">Automações e dashboards costumam ficar prontos em 1 a 3 semanas. Sistemas sob medida, de 1 a 3 meses, com entregas semanais no caminho.</p><p data-l="en">Automations and dashboards usually take 1 to 3 weeks. Custom systems take 1 to 3 months, with weekly deliveries along the way.</p></details>
+      <details><summary><span data-l="pt">Você atende fora de Caruaru?</span><span data-l="en">Do you work with clients abroad?</span></summary><p data-l="pt">Sim. Trabalho remoto com clientes de todo o Brasil e do exterior, por videochamada e WhatsApp.</p><p data-l="en">Yes. I work remotely with clients anywhere, over video calls and WhatsApp, in Portuguese or English.</p></details>
+      <details><summary><span data-l="pt">Depois de pronto, quem cuida do sistema?</span><span data-l="en">Who maintains it afterwards?</span></summary><p data-l="pt">Os primeiros 30 dias de correções são por minha conta. Depois, você escolhe: um plano mensal de manutenção ou chamados avulsos. O servidor tem cobrança mensal própria, separada da manutenção.</p><p data-l="en">The first 30 days of fixes are on me. After that, choose a monthly maintenance plan or pay per request.</p></details>
+      <details><summary><span data-l="pt">Meus dados e os dos meus clientes ficam seguros?</span><span data-l="en">Is my data safe?</span></summary><p data-l="pt">Sim. Assino contrato de confidencialidade, sigo a LGPD e uso cifragem de dados pessoais, controle de acesso por perfil e backup. Sigilo é rotina para quem trabalha como perito.</p><p data-l="en">Yes. I sign an NDA, follow Brazil's data-protection law (LGPD), and use encryption, role-based access and backups. Confidentiality is routine for a court examiner.</p></details>
+      <details><summary><span data-l="pt">Preciso entender de tecnologia?</span><span data-l="en">Do I need to be technical?</span></summary><p data-l="pt">Não. Você explica como o seu negócio funciona; eu traduzo isso em sistema e explico cada decisão em linguagem simples.</p><p data-l="en">No. You explain how your business works; I turn it into software and explain every decision in plain language.</p></details>
+    </div>
+  </section>
+</main>
+
+<!-- ORÇAMENTO -->
+<section class="quote pad" id="orcamento" aria-labelledby="h-quote">
+  <div class="in">
+    <div class="quote-intro">
+      <span class="tag" data-l="pt">Orçamento</span><span class="tag" data-l="en">Get a quote</span>
+      <h2 id="h-quote" data-l="pt">Conte o que você precisa</h2><h2 data-l="en">Tell me what you need</h2>
+      <p data-l="pt">Preencha ao lado e o pedido abre pronto no meu WhatsApp. Respondo em até 1 dia útil.</p>
+      <p data-l="en">Fill in the form and the request opens ready to send on WhatsApp. I reply within 1 business day.</p>
+      <ul class="contacts">
+        <li><span class="k">WhatsApp</span><a href="https://wa.me/5581979064200" target="_blank" rel="noopener">+55 81 97906-4200</a></li>
+        <li><span class="k">E-mail</span><a href="mailto:pedro.vinicius@upe.br">pedro.vinicius@upe.br</a></li>
+        <li><span class="k">Instagram</span><a href="https://www.instagram.com/pedro_vinicius_m.a/" target="_blank" rel="noopener">@pedro_vinicius_m.a</a></li>
+        <li><span class="k">LinkedIn</span><a href="https://www.linkedin.com/in/pedro-vinicius-moraes-alves/" target="_blank" rel="noopener">pedro-vinicius-moraes-alves</a></li>
+        <li><span class="k">GitHub</span><a href="https://github.com/Pedro-Vinicius-MA" target="_blank" rel="noopener">Pedro-Vinicius-MA</a></li>
+      </ul>
+    </div>
+
+    <form id="qform" novalidate>
+      <div class="row2">
+        <div class="fld"><label for="f-nome"><span data-l="pt">Seu nome *</span><span data-l="en">Your name *</span></label><input id="f-nome" name="nome" autocomplete="name" data-ph-pt="Ex.: Maria Souza" data-ph-en="e.g. Maria Souza"></div>
+        <div class="fld"><label for="f-empresa"><span data-l="pt">Empresa</span><span data-l="en">Company</span></label><input id="f-empresa" name="empresa" autocomplete="organization" data-ph-pt="Opcional" data-ph-en="Optional"></div>
+      </div>
+      <div class="fld"><label for="f-servico"><span data-l="pt">Serviço</span><span data-l="en">Service</span></label>
+        <select id="f-servico" name="servico">
+          <option data-en="Automation & integrations">Automação e integrações</option>
+          <option data-en="BI dashboard">Dashboard de BI</option>
+          <option data-en="AI support agent">Agente de IA para atendimento</option>
+          <option data-en="Custom web system">Sistema web sob medida</option>
+          <option data-en="Security & privacy review">Revisão de segurança e LGPD</option>
+          <option data-en="Handwriting & document examination">Perícia grafotécnica e documentoscópica</option>
+          <option data-en="Not sure yet">Ainda não sei, quero conversar</option>
+        </select>
+      </div>
+      <div class="fld"><label for="f-desc"><span data-l="pt">Sobre o projeto *</span><span data-l="en">About the project *</span></label><textarea id="f-desc" name="desc" data-ph-pt="O que acontece hoje, o que você quer que mude e quem vai usar." data-ph-en="What happens today, what you want to change and who will use it."></textarea></div>
+      <div class="row2">
+        <div class="fld"><label for="f-prazo"><span data-l="pt">Prazo</span><span data-l="en">Timeline</span></label>
+          <select id="f-prazo" name="prazo">
+            <option data-en="Urgent (under 2 weeks)">Urgente (menos de 2 semanas)</option>
+            <option data-en="Within a month" selected>Em até 1 mês</option>
+            <option data-en="1 to 3 months">De 1 a 3 meses</option>
+            <option data-en="Flexible">Sem pressa</option>
+          </select>
+        </div>
+        <div class="fld"><label for="f-inv"><span data-l="pt">Investimento previsto</span><span data-l="en">Budget</span></label>
+          <select id="f-inv" name="inv">
+            <option data-en="Not sure yet">Ainda não sei</option>
+            <option data-en="Up to US$ 700">Até R$ 2.000</option>
+            <option data-en="US$ 700 – 2,000">R$ 2.000 a R$ 6.000</option>
+            <option data-en="US$ 2,000 – 5,000">R$ 6.000 a R$ 15.000</option>
+            <option data-en="Over US$ 5,000">Acima de R$ 15.000</option>
+          </select>
+        </div>
+      </div>
+      <p class="form-err" id="f-err" role="alert"></p>
+      <div class="form-foot">
+        <small data-l="pt">Nada é enviado sozinho: o WhatsApp abre com a mensagem pronta e você confere antes de mandar.</small>
+        <small data-l="en">Nothing is sent automatically: WhatsApp opens with the message ready for you to review.</small>
+        <button class="btn btn-primary" type="submit">
+          <svg viewBox="0 0 24 24" aria-hidden="true" style="fill:currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.8 14.1c-.2.7-1.4 1.3-2 1.4-.5 0-1.1.2-3.6-.8-3-1.2-5-4.2-5.1-4.4-.1-.2-1.2-1.6-1.2-3.1s.8-2.2 1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.2-.3.3-.1.6.2.3.8 1.4 1.8 2.2 1.2 1.1 2.2 1.4 2.5 1.6.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3.1.2.1.8-.1 1.5Z"/></svg>
+          <span data-l="pt">Enviar pelo WhatsApp</span><span data-l="en">Send via WhatsApp</span>
+        </button>
+      </div>
+      <p class="fallback" id="f-fallback" hidden><span data-l="pt">Se o WhatsApp não abriu,</span><span data-l="en">If WhatsApp didn't open,</span> <a id="f-link" href="#" target="_blank" rel="noopener"><span data-l="pt">clique aqui</span><span data-l="en">click here</span></a>.</p>
+    </form>
+  </div>
+</section>
+
+<footer class="pad">
+  <div class="in">
+    <span>© 2026 Pedro Vinícius Moraes Alves · Caruaru-PE</span>
+    <span data-l="pt">Sistemas sob medida · Perícia grafotécnica e documentoscópica</span><span data-l="en">Custom software · Document examination</span>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5581979064200" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.8 14.1c-.2.7-1.4 1.3-2 1.4-.5 0-1.1.2-3.6-.8-3-1.2-5-4.2-5.1-4.4-.1-.2-1.2-1.6-1.2-3.1s.8-2.2 1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.2-.3.3-.1.6.2.3.8 1.4 1.8 2.2 1.2 1.1 2.2 1.4 2.5 1.6.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3.1.2.1.8-.1 1.5Z"/></svg>
+</a>
+
+<script>
+(function(){
+  var WA = '5581979064200';
+  var root = document.documentElement;
+  var pt = document.getElementById('btn-pt'), en = document.getElementById('btn-en');
+  var lang = 'pt';
+
+  // guarda o texto em português das opções para poder alternar
+  document.querySelectorAll('option[data-en]').forEach(function(o){ o.dataset.pt = o.textContent; });
+
+  function setLang(l){
+    lang = l === 'en' ? 'en' : 'pt';
+    root.lang = lang === 'en' ? 'en' : 'pt-BR';
+    pt.setAttribute('aria-pressed', String(lang === 'pt'));
+    en.setAttribute('aria-pressed', String(lang === 'en'));
+    document.querySelectorAll('[data-ph-pt]').forEach(function(el){ el.placeholder = el.getAttribute('data-ph-' + lang); });
+    document.querySelectorAll('option[data-en]').forEach(function(o){ o.textContent = lang === 'en' ? o.dataset.en : o.dataset.pt; });
+    try { localStorage.setItem('pv-lang', lang); } catch(e) {}
+  }
+  var saved = 'pt'; try { saved = localStorage.getItem('pv-lang') || 'pt'; } catch(e) {}
+  setLang(saved);
+  pt.addEventListener('click', function(){ setLang('pt'); });
+  en.addEventListener('click', function(){ setLang('en'); });
+
+  var form = document.getElementById('qform');
+  var err = document.getElementById('f-err');
+  var fb = document.getElementById('f-fallback'), fbLink = document.getElementById('f-link');
+  var nome = document.getElementById('f-nome'), desc = document.getElementById('f-desc');
+
+  [nome, desc].forEach(function(el){ el.addEventListener('input', function(){ el.removeAttribute('aria-invalid'); err.textContent=''; }); });
+
+  function selText(id){ var s = document.getElementById(id); return s.options[s.selectedIndex].textContent; }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var missing = [];
+    if (!nome.value.trim()) { nome.setAttribute('aria-invalid','true'); missing.push(nome); }
+    if (!desc.value.trim()) { desc.setAttribute('aria-invalid','true'); missing.push(desc); }
+    if (missing.length) {
+      err.textContent = lang === 'en'
+        ? 'Fill in your name and a few lines about the project, then send again.'
+        : 'Preencha seu nome e algumas linhas sobre o projeto, depois envie de novo.';
+      missing[0].focus();
+      return;
+    }
+    var empresa = document.getElementById('f-empresa').value.trim();
+    var L = lang === 'en'
+      ? {hi:'Hi Pedro! I found you through your website and would like a quote.', n:'Name', c:'Company', s:'Service', p:'Timeline', b:'Budget', d:'About the project'}
+      : {hi:'Olá, Pedro! Vim pelo seu site e quero um orçamento.', n:'Nome', c:'Empresa', s:'Serviço', p:'Prazo', b:'Investimento previsto', d:'Sobre o projeto'};
+    var msg = L.hi + '\n\n'
+      + '*' + L.n + ':* ' + nome.value.trim() + '\n'
+      + (empresa ? '*' + L.c + ':* ' + empresa + '\n' : '')
+      + '*' + L.s + ':* ' + selText('f-servico') + '\n'
+      + '*' + L.p + ':* ' + selText('f-prazo') + '\n'
+      + '*' + L.b + ':* ' + selText('f-inv') + '\n\n'
+      + '*' + L.d + ':*\n' + desc.value.trim();
+    var url = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(msg);
+    fbLink.href = url;
+    var w = null;
+    try { w = window.open(url, '_blank', 'noopener'); } catch(x) {}
+    fb.hidden = false;
+  });
+})();
+</script>
+
+</body>
+</html>
